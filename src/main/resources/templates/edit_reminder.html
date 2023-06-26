@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Reminder Application</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+		integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+</head>
+
+<body style="background-color: paleturquoise;">
+	<nav class="navbar fixed-top navbar-expand-md bg-dark navbar-dark">
+	  <!-- Brand -->
+	  <a class="navbar-brand" th:href="@{/reminders_Admin}">Reminder Application</a>
+	
+	  <!-- Toggler/collapsibe Button -->
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+	
+	  <!-- Navbar links -->
+	  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+	    <ul class="navbar-nav">
+	      <li class="nav-item">
+	        <a class="nav-link" th:href="@{/reminders_Admin}">Reminders</a>
+	      </li>
+	      <li class="nav-item">
+					<a class="nav-link" th:href="@{/reminders/expired}">Expired</a>
+			</li>
+			<li class="nav-item">
+					<a class="nav-link" th:href="@{/reminders/expiring}">Expiring</a>
+			</li>
+	      <li class="nav-item">
+	        <a class="nav-link" th:href="@{/reminders/new}">Create New</a>
+	      </li>
+	    </ul>
+	    
+	    <!-- Session Owner -->
+	        <ul class="navbar-nav ml-auto">
+	            <li class="nav-item d-flex justify-content-center">
+	                <a class="nav-link text-center" th:href="@{/reminders_Admin}">ADMIN</a>
+	            </li>
+	        </ul>
+	    
+	    <!-- Contact links -->
+	    <ul class="navbar-nav ml-auto">
+	      <li class="nav-item">
+	        <a class="nav-link" href="https://github.com/RohitChanda04" target="_blank">GitHub</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="https://www.linkedin.com/in/rohit-chanda-b20763b6/" target="_blank">LinkedIn</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="https://open.spotify.com/artist/4rMtJmvZ6GIJVPIet4zVSt" target="_blank">Spotify</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="https://music.apple.com/us/artist/rohit-majnu-chanda/1580367855" target="_blank">Apple Music</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="https://www.youtube.com/@rohitchanda8461" target="_blank">YouTube</a>
+	      </li>
+	      <li class="nav-item">
+					<a th:href="@{/logout}" th:action="@{/logout}" class="nav-link">Logout</a>
+				</li>
+	    </ul>
+	    
+	  </div>
+	</nav>
+	
+	<br>
+	
+	<div class="container" style="background-color: aliceblue;">
+		
+		<div class="row" style="background-color: paleturquoise;">
+			
+			<div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card" style="background-color: aliceblue; box-shadow: 12px 16px 13px rgba(0, 0, 0, 0.2);">
+				
+				<br>
+				<br>
+				<br>
+				
+				<h1 class="text-center">Edit Reminder</h1>
+				
+				<br>
+				
+				<div class="card-body" style="background-color: aliceblue;">
+					
+					<form th:action="@{/reminders/{serialNumber}(serialNumber=${reminder.serialNumber})}" th:object="${reminder}" method="post">
+						
+						<div class="form-group">
+							<label>Owner</label>
+							<input
+							type="text"
+							name="owner"
+							th:field="*{owner}"
+							class="form-control"
+							placeholder="Enter Your Name"
+							required
+							/>
+						</div>
+						
+						<br>
+						
+						<div class="form-group">
+							<br>
+						<label>Priority		</label>
+							<div class="btn-group btn-group-toggle" style="display: flex; justify-content: center;" data-toggle="buttons">
+							   <label class="btn btn-secondary active" style="background-color: #98FB98; color: black;">
+							   		<input type="radio" th:field="*{priority}" name="options" value="Low" autocomplete="off" checked="checked"> Low
+							   </label>
+							   <label class="btn btn-secondary" style="background-color: #FFFF66; color: black;">
+							   		<input type="radio" th:field="*{priority}" name="options" value="Medium" autocomplete="off"> Medium
+							   </label>
+							   <label class="btn btn-secondary" style="background-color: #FF6666; color: black;">
+							   		<input type="radio" th:field="*{priority}" name="options" value="High" autocomplete="off"> High
+							   </label>
+							</div>
+						</div>
+						
+						<br>
+						
+						<div class="form-group" style="background-color: aliceblue;">
+							<br>
+							<label>Deadline</label>
+							<input
+							type="date"
+							name="deadline"
+							th:field="*{deadline}"
+							class="form-control"
+							id="datepicker"
+							placeholder="Enter Deadline"
+							onfocus="(this.min = new Date().toISOString().split('T')[0])"
+							required
+							/>
+						</div>
+						
+						<br>
+						
+						<div class="form-group">
+							<br>
+							<label>Reminder</label>
+							<input
+							type="text"
+							name="reminder_body"
+							th:field="*{body}"
+							class="form-control"
+							placeholder="Enter Reminder"
+							required
+							/>
+						</div>
+						
+						<br>
+						
+						<div class="box-footer">
+							<center>
+								<button type="submit" class="btn btn-primary">Submit</button>
+								<a th:href="@{/reminders_Admin}" class="btn btn-danger">Cancel</a>
+							</center>
+						</div>
+						
+					</form>
+					
+				</div>
+				
+			</div>
+			
+		</div>
+		
+	</div>
+	
+</body>
+
+</html>
